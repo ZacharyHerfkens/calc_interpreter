@@ -6,6 +6,14 @@ from typing import Callable, Iterator
 from lexer.tokens import Token
 
 
+class LexerError(Exception):
+    """An error that occurs during lexing."""
+
+    def __init__(self, reason: str, pos: int) -> None:
+        super().__init__(f"LexError: {reason} at {pos}")
+        self.pos = pos
+
+
 class Lexer(Iterator):
     """An Iterator over the tokens of a calc program."""
 
@@ -55,7 +63,7 @@ class Lexer(Iterator):
             return Token("assign", self._next_char(), start)
         if char in '()':
             return Token("paren", self._next_char(), start)
-        raise ValueError(f"Unexpected character {char} at position {self.pos}")
+        raise LexerError(f"Illegal character '{char}'", self.pos)
     
 
     def peek(self) -> Token | None:

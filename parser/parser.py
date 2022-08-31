@@ -19,7 +19,7 @@ class SyntaxError(Exception):
     """An error that occurs during parsing."""
     
     def __init__(self, message: str, token: Token) -> None:
-        super().__init__(message)
+        super().__init__(f"SyntaxError: {message}")
         self.token = token
 
 
